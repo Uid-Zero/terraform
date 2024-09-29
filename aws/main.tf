@@ -7,8 +7,7 @@ provider "aws" {
 
 # Reference S3 module with values passed dynamically from the AWS caller identity. 
 
-module "s3" {
-  source = "./modules/s3"
+module "awsConfig" {
+  source = "./modules/awsConfig"
   accountID = data.aws_caller_identity.uidZero.account_id
 }
-
