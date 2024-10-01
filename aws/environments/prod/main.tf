@@ -8,6 +8,6 @@ provider "aws" {
 # Reference S3 module with values passed dynamically from the AWS caller identity. 
 
 module "awsConfig" {
-  source = "./modules/awsConfig"
+  source = "git@github.com:Uid-Zero/terraform.git//aws/modules/awsConfig"
   accountID = data.aws_caller_identity.uidZero.account_id
 }
