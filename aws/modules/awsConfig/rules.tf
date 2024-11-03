@@ -24,16 +24,6 @@ resource "aws_cloudtrail" "accountTrail" {
 
 # Set up Config Rules to monitor compliance
 
-resource "aws_config_configuration_recorder" "recorder" {
-  name     = "accountRecorder"
-  role_arn  = "arn:aws:iam::${var.accountID}:role/aws-config-role"
-}
-
-resource "aws_config_delivery_channel" "deliveryChannel" {
-  name           = "default"
-  s3_bucket_name = aws_s3_bucket.configBucket.bucket
-}
-
 resource "aws_config_config_rule" "s3BucketVersioning" {
   name   = "s3-bucket-versioning-enabled"
   source {
