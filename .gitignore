@@ -1,2 +1,3 @@
 .terr*
 *tfstate*
+*.DS_Store

@@ -67,3 +67,53 @@ resource "aws_s3_bucket_policy" "configBucketPolicy" {
     ]
   })
 }
+
+#--------#
+
+# This bucket will store AWS Cloud Trial, configuration history, compliance reports, and configuration snapshots. The bucket name is dynamically generated using the account ID.
+resource "aws_s3_bucket" "cloudTrialBucket" {
+    bucket = lower("awsCloudTrialBucket-${var.accountID}")
+    force_destroy = true
+    tags = {
+        Name        = "AWS Cloud Trial Bucket"
+        Description = "Bucket for AWS Cloud Trial logs."
+    }
+}
+
+resource "aws_s3_bucket_versioning" "cloudTrialBucketVersioning" {
+  bucket = aws_s3_bucket.cloudTrialBucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_policy" "cloudTrialBucketPolicy" {
+  bucket = aws_s3_bucket.cloudTrialBucket.id
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = [
+          "s3:PutObject",
+          "s3:GetObject"
+        ],
+        Effect = "Allow",
+        Resource = "${aws_s3_bucket.cloudTrialBucket.arn}/*",
+        Principal = {
+          Service = "cloudtrail.amazonaws.com"
+        }
+      },
+      {
+        Action = [
+          "s3:GetBucketAcl",
+          "s3:ListBucket"
+        ],
+        Effect = "Allow",
+        Resource = "${aws_s3_bucket.cloudTrialBucket.arn}",
+        Principal = {
+          Service = "cloudtrail.amazonaws.com"
+        }        
+      }
+    ]
+  })
+}
