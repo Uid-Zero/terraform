@@ -1,7 +1,7 @@
 # Bucket to store AWS Config data [configBucket]
 
-# This bucket will store AWS Config logs, configuration history, compliance reports,
-# and configuration snapshots. The bucket name is dynamically generated using the account ID.
+# This bucket will store AWS Config logs, configuration history, compliance reports, and configuration snapshots. 
+
 resource "aws_s3_bucket" "configBucket" {
     bucket = lower("awsConfigBucket-${var.accountID}")
     force_destroy = true
@@ -70,7 +70,8 @@ resource "aws_s3_bucket_policy" "configBucketPolicy" {
 
 #--------#
 
-# This bucket will store AWS Cloud Trial, configuration history, compliance reports, and configuration snapshots. The bucket name is dynamically generated using the account ID.
+# This bucket will store AWS Cloud Trial, configuration history, compliance reports, and configuration snapshots. 
+
 resource "aws_s3_bucket" "cloudTrialBucket" {
     bucket = lower("awsCloudTrialBucket-${var.accountID}")
     force_destroy = true
